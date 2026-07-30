@@ -1,36 +1,25 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
 import userRoutes from "./routes/userRoutes.js";
+import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger.js";
-
-import swaggerUiAssetPath from "swagger-ui-dist";
 
 dotenv.config();
 
 const app = express();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
 
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Swagger JSON
 app.get("/api-docs.json", (req, res) => {
   res.json(swaggerSpec);
-});
-
-// Swagger UI
-app.use("/api-docs", express.static(swaggerUiAssetPath.getAbsoluteFSPath()));
-
-app.get("/api-docs", (req, res) => {
-  res.sendFile(path.join(swaggerUiAssetPath.getAbsoluteFSPath(), "index.html"));
 });
 
 app.get("/", (req, res) => {
