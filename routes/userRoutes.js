@@ -13,10 +13,29 @@ const router = express.Router();
  * /api/users:
  *   get:
  *     summary: Get all users
- *     description: Returns a list of users or a greeting using query parameter.
+ *     description: Returns a list of users.
  *     responses:
  *       200:
- *         description: Success
+ *         description: Users retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: All Users
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         example: Bisma
  */
 router.get("/", getUsers);
 
@@ -25,9 +44,42 @@ router.get("/", getUsers);
  * /api/users:
  *   post:
  *     summary: Create a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Ali
+ *               email:
+ *                 type: string
+ *                 example: ali@gmail.com
  *     responses:
  *       201:
- *         description: User created successfully
+ *         description: User created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User created successfully
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       example: Ali
+ *                     email:
+ *                       type: string
+ *                       example: ali@gmail.com
  */
 router.post("/", createUser);
 
@@ -42,9 +94,45 @@ router.post("/", createUser);
  *         required: true
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Ahmed
+ *               email:
+ *                 type: string
+ *                 example: ahmed@gmail.com
  *     responses:
  *       200:
- *         description: User updated successfully
+ *         description: User updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User 1 updated successfully
+ *                 updatedUser:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "1"
+ *                     name:
+ *                       type: string
+ *                       example: Ahmed
+ *                     email:
+ *                       type: string
+ *                       example: ahmed@gmail.com
  */
 router.put("/:id", updateUser);
 
@@ -61,7 +149,15 @@ router.put("/:id", updateUser);
  *           type: string
  *     responses:
  *       200:
- *         description: User deleted successfully
+ *         description: User deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User 1 deleted successfully
  */
 router.delete("/:id", deleteUser);
 
